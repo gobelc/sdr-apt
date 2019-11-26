@@ -1,0 +1,11 @@
+*.pyc
+dat/
+images/
+doc/
+wav/
+temp/
+gnuradio/
+examples/local.py
+taller1/
+apt-indices.py
+.vscode/
