@@ -68,9 +68,9 @@ def plot_histogram(matrix,title="Histograma", save = False):
     
 def get_frame(matrix, frame):
     if frame=="A":
-        matrix = matrix[:,39+47-1:NOAA_LINE_LENGTH/2-45-3]
+        matrix = matrix[:,39+47-1:1040-45-3]
     if frame=="B":
-        matrix = matrix[:,NOAA_LINE_LENGTH/2+39+47-1:NOAA_LINE_LENGTH-45-3]
+        matrix = matrix[:,1040+39+47-1:NOAA_LINE_LENGTH-45-3]
     return matrix
 
 def flip(matrix):

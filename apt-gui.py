@@ -43,8 +43,8 @@ import calibrate as cal
 import time
 import matplotlib as mpl
 from matplotlib import pyplot as plt
-from Tkinter import *
-import Tkinter, Tkconstants, tkFileDialog, tkSimpleDialog, tkMessageBox, ttk
+from tkinter import *
+import tkinter, tkinter.constants, tkinter.filedialog, tkinter.simpledialog, tkinter.messagebox, tkinter.ttk
 from PIL import ImageTk, Image, ImageDraw
 
 
@@ -81,7 +81,7 @@ def logScreen(text):
     #self.log = self.log + "\n" + text
     data.counter+=1
     T.insert(END, "\n" + "[" + str(data.counter)+ "] " + text)
-    T.see(Tkinter.END)
+    T.see(tkinter.END)
 
 
 def printImageAttributes():
@@ -95,7 +95,7 @@ def printImageAttributes():
 
 
 def saveImageAPTCallBack():
-    root.filename = tkFileDialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
+    root.filename = tkinter.filedialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
     data.filename=root.filename
     img = Image.fromarray(data.matrix)
     data.image=img
@@ -105,7 +105,7 @@ def saveImageAPTCallBack():
     logScreen("Imagen guardada en " + root.filename)
 
 def saveImageACallBack():
-    root.filename = tkFileDialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
+    root.filename = tkinter.filedialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
     data.filename=root.filename
     img = Image.fromarray(data.frameA)
     if img.mode != 'RGB':
@@ -114,7 +114,7 @@ def saveImageACallBack():
     logScreen("Imagen guardada en " + root.filename)
 
 def saveImageBCallBack():
-    root.filename = tkFileDialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
+    root.filename = tkinter.filedialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
     data.filename=root.filename
     img = Image.fromarray(data.frameB)
     if img.mode != 'RGB':
@@ -123,7 +123,7 @@ def saveImageBCallBack():
     logScreen("Imagen guardada en " + root.filename)
 
 def saveImageRGBCallBack():
-    root.filename = tkFileDialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
+    root.filename = tkinter.filedialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("png files","*.png"),("all files","*.*")))
     data.filename=root.filename
     img = Image.fromarray(data.matrix_RGB)
     if img.mode != 'RGB':
@@ -132,7 +132,7 @@ def saveImageRGBCallBack():
     logScreen("Imagen guardada en " + root.filename)
 
 def saveImageThermalCallBack():
-    root.filename = tkFileDialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("pdf files","*.pdf"),("all files","*.*")))
+    root.filename = tkinter.filedialog.asksaveasfilename(initialdir = dir,title = "Select file",filetypes = (("pdf files","*.pdf"),("all files","*.*")))
     data.filename=root.filename
     thermal_matrix =  np.array(data.thermal_matrix)
     numrows, numcols = thermal_matrix.shape
@@ -194,7 +194,7 @@ def cacheImageCallBack():
 
 def decodeImageCallBack():
     root.filename =""
-    root.filename = tkFileDialog.askopenfilename(initialdir = dir,title = "Select file",filetypes = (("wav files","*.wav"),("all files","*.*")))
+    root.filename = tkinter.filedialog.askopenfilename(initialdir = dir,title = "Select file",filetypes = (("wav files","*.wav"),("all files","*.*")))
     logScreen("Decodificando imagen a partir de la señal APT " + root.filename)
     data.matrix = apt.decode(root.filename, cache = False)
     data.frameA = utils.get_frame(data.matrix,'A')
@@ -203,7 +203,7 @@ def decodeImageCallBack():
     previewImageCallBack(1)
 
 def filterImageCallBack():
-    size = tkSimpleDialog.askinteger("Input", "Disk size",
+    size = tkinter.simpledialog.askinteger("Input", "Disk size",
                                  parent=root,
                                  minvalue=1, maxvalue=100)
     data.matrix = utils.mean_filter(data.matrix,size)
@@ -341,21 +341,21 @@ def nullCallback():
     return
 
 def tallerineCallback():
-    tkMessageBox.showinfo("sdr-apt", "Esta función está siendo desarrollada en Tallerine...")
+    tkinter.messagebox.showinfo("sdr-apt", "Esta función está siendo desarrollada en Tallerine...")
     return
 
 def nubosidadCallback():
     cantfilas,cantcolumnas = (data.frameB).shape
     #
-    x1 = tkSimpleDialog.askinteger("Input", "x1", parent=root,
+    x1 = tkinter.simpledialog.askinteger("Input", "x1", parent=root,
                                  minvalue=0, maxvalue=cantcolumnas)
-    y1 = tkSimpleDialog.askinteger("Input", "y1",
+    y1 = tkinter.simpledialog.askinteger("Input", "y1",
                                  parent=root,
                                  minvalue=0, maxvalue=cantfilas)
-    x2 = tkSimpleDialog.askinteger("Input", "x21",
+    x2 = tkinter.simpledialog.askinteger("Input", "x21",
                                  parent=root,
                                  minvalue=0, maxvalue=cantcolumnas)
-    y2 = tkSimpleDialog.askinteger("Input", "y2",
+    y2 = tkinter.simpledialog.askinteger("Input", "y2",
                                  parent=root,
                                  minvalue=0, maxvalue=cantfilas)
     pos = []
@@ -365,7 +365,7 @@ def nubosidadCallback():
     pos.append(y2)
 
     a = meteo.indice_nubosidad(data.frameB,pos, nivel=180)
-    tkMessageBox.showinfo("Indice de Nubosidad", "Nubosidad: " + str(a) + "%.")
+    tkinter.messagebox.showinfo("Indice de Nubosidad", "Nubosidad: " + str(a) + "%.")
     img = Image.fromarray(data.frameA)
     draw = ImageDraw.Draw(img)
     draw.rectangle(pos,fill=None, outline='red')
@@ -379,10 +379,10 @@ def plot_xy_frameB():
     utils.plot_image(data.frameB,"Frame B")
 
 def filtrarMedianaCallback():
-    n1 = tkSimpleDialog.askfloat("Input", "Sensitividad",
+    n1 = tkinter.simpledialog.askfloat("Input", "Sensitividad",
                                  parent=root,
                                  minvalue=0., maxvalue=255.)
-    n2 = tkSimpleDialog.askinteger("Input", "Número de pasadas",
+    n2 = tkinter.simpledialog.askinteger("Input", "Número de pasadas",
                                  parent=root,
                                  minvalue=1, maxvalue=10.)
 
@@ -397,10 +397,10 @@ def filtrarMedianaCallback():
 
 def combinarCallback():
     #tkMessageBox.showinfo("sdr-apt", "Esta función está siendo desarrollada en Tallerine...")
-    n1 = tkSimpleDialog.askfloat("Input", "Multiplicador Canal A",
+    n1 = tkinter.simpledialog.askfloat("Input", "Multiplicador Canal A",
                                  parent=root,
                                  minvalue=-10., maxvalue=10.)
-    n2 = tkSimpleDialog.askfloat("Input", "Multiplicador Canal B",
+    n2 = tkinter.simpledialog.askfloat("Input", "Multiplicador Canal B",
                                  parent=root,
                                  minvalue=-10., maxvalue=10.)
     data.matrix_comb = combinar_canales.combinar(data.matrix,n1,n2)

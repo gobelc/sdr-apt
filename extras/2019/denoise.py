@@ -58,7 +58,7 @@ def filtro_mediana(m, sensitivity=30, pasadas=1):
 	C=np.zeros((cantfilas, cantcolumnas))
 	CP=[]
 	for k in range(pasadas):
-		print "Pasada ", k+1, " de ", pasadas
+		print("Pasada ", k+1, " de ", pasadas)
 		T=np.zeros((2,1))
 		f=0
 		for i in range (1, cantfilas-1):

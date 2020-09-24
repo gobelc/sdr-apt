@@ -70,7 +70,7 @@ def get_frame(matrix, frame):
     @result telemetry_frame Cuadro de telemetría.
     """
     if frame=="A":
-        telemetry_frame = matrix[:,NOAA_LINE_LENGTH/2-46:NOAA_LINE_LENGTH/2-1]
+        telemetry_frame = matrix[:,1040-46:1040-1]
     if frame=="B":
         telemetry_frame = matrix[:,NOAA_LINE_LENGTH-46:NOAA_LINE_LENGTH]
     return telemetry_frame
@@ -79,7 +79,7 @@ def get_space_time_sync_frame(matrix, frame):
     if frame=="A":
         telemetry_frame = matrix[:,40:40+44]
     if frame=="B":
-        telemetry_frame = matrix[:,NOAA_LINE_LENGTH/2+40:NOAA_LINE_LENGTH/2+40+44]
+        telemetry_frame = matrix[:,1040+40:1040+40+44]
     return telemetry_frame
 
 

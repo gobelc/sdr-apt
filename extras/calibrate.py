@@ -37,7 +37,7 @@ def calibrate(matrix,frame_name, debug = False, cache = False):
     @result matrix Matriz calibrada.
     """
     if cache==False:
-        print "\n Normalizando imagen... \n"
+        print("\n Normalizando imagen... \n")
         TELEMETRY_LENGTH = 8 * 16
 
         _, peaks =  tltry.get_peaks(matrix,frame_name)
@@ -46,7 +46,7 @@ def calibrate(matrix,frame_name, debug = False, cache = False):
         r_max = 0
         for i in range(0,len(peaks)):
             peak = peaks[i]
-            print "\n ############### \n Normalizando frame", i+1, "de", len(peaks), "frames."
+            print("\n ############### \n Normalizando frame", i+1, "de", len(peaks), "frames.")
 
             telemetry_vector = tltry.get_vector(telemetry_frame[peak:peak+TELEMETRY_LENGTH])
             telemetry = np.zeros(16)
@@ -54,7 +54,7 @@ def calibrate(matrix,frame_name, debug = False, cache = False):
             for j in range(0,16):
                 telemetry[j] = np.mean(telemetry_vector[j*8:(j+1)*8])
 
-            print "\n Telemetria recibida: ", telemetry
+            print("\n Telemetria recibida: ", telemetry)
 
             ch = tltry.get_channel(telemetry)
             if i==0:
@@ -63,7 +63,7 @@ def calibrate(matrix,frame_name, debug = False, cache = False):
             p = polynome(telemetry)
             r = rsquared(np.append(p(telemetry[8]),p(telemetry[0:8])), [0,31,63,95,127,159,191,223,255])
 
-            print "\n Polinomio de ajuste:", p, "| r =", r
+            print("\n Polinomio de ajuste:", p, "| r =", r)
             
             if r > r_max:
                 r_max = r
@@ -71,9 +71,9 @@ def calibrate(matrix,frame_name, debug = False, cache = False):
                 p_max = p
 
             if r>0.99:
-                print "\n Canal del frame", frame_name, ": ", channel.get_name()
-                print "\n Descripción del canal:", channel.get_description(),
-                print "\n Temperatura de termistor:", tltry.get_thermistor_temp(telemetry)
+                print("\n Canal del frame", frame_name, ": ", channel.get_name())
+                print("\n Descripción del canal:", channel.get_description(),)
+                print("\n Temperatura de termistor:", tltry.get_thermistor_temp(telemetry))
 
             if i == len(peaks)-1:
                 lower_index = peak
@@ -87,7 +87,7 @@ def calibrate(matrix,frame_name, debug = False, cache = False):
             
        
             if debug:
-                print "\n Telemetria calibrada:", p(telemetry[0:16])
+                print("\n Telemetria calibrada:", p(telemetry[0:16]))
 
                 plt.figure()
                 

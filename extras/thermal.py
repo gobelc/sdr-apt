@@ -45,8 +45,8 @@ def getThermalImage(matrix, satellite_NOAA="19",frame_name="A"):
         frame = utils.get_frame(matrix, frame_name)
         mayor_frame = tlmtry.get_mayor_frame(matrix, frame_name)
         Cs = tlmtry.compute_CS(matrix, frame_name)
-        print "Cs:", Cs
-        print "mayor frame:", mayor_frame
+        print("Cs:", Cs)
+        print("mayor frame:", mayor_frame)
         thermal_matrix = get_temp_3A(frame, mayor_frame, satellite, Cs)
         imgt = Image.fromarray(thermal_matrix)
         imgt =  np.array(imgt)
@@ -62,16 +62,16 @@ def get_temp_3A(matrix, telemetry, satellite, Cs):
     c1=1.1910427e-5
     c2=1.4387752
     
-    print "largo telemetria: ", len(telemetry)
+    print("largo telemetria: ", len(telemetry))
    
     Ns = satelite.Ns[2]
     b0 = satelite.b0[2]
     b1 = satelite.b1[2]
     b2 = satelite.b2[2]
 
-    print "Ns", Ns
-    print "bo", b0
-    print "b1", b1
+    print("Ns", Ns)
+    print("bo", b0)
+    print("b1", b1)
     d = np.matrix(satelite.d)
     d0 = d[:,0]
     d1 = d[:,1]
@@ -82,27 +82,27 @@ def get_temp_3A(matrix, telemetry, satellite, Cs):
     CPR2 = 4 * telemetry[11]
     CPR3 = 4 * telemetry[12]
 
-    print CPRO
+    print(CPRO)
     T0 = d0[0] + d1[0] * CPRO + d2[0] * CPRO**2 
     T1 = d0[1] + d1[1] * CPR1 + d2[1] * CPR1**2 
     T2 = d0[2] + d1[2] * CPR2 + d2[2] * CPR2**2 
     T3 = d0[3] + d1[3] * CPR3 + d2[3] * CPR3**2 
   
-    print T0
+    print(T0)
 
     Tbb = .25 * (T0 + T1 + T2 + T3)
     Tbb = satelite.A[2] + Tbb * satelite.B[2]
     Tbb = Tbb[0,0]
     vc =  satelite.vc[2]
 
-    print "vc", vc
-    print "Tbb", Tbb
+    print("vc", vc)
+    print("Tbb", Tbb)
     Nbb = c1 * vc**3 / (math.exp(c2 * vc / Tbb) - 1.0)
 
     Cb = telemetry[14] * 4
 
-    print "Cb", Cb
-    print "Cs", Cs
+    print("Cb", Cb)
+    print("Cs", Cs)
 
     matrix_therm = np.ndarray(( matrix.shape[0],  matrix.shape[1]))
     for i in range(0, matrix.shape[0]):

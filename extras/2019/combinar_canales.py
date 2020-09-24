@@ -28,8 +28,6 @@ import sys
 sys.path.insert(0, './extras/')
 sys.path.insert(0, './')
 import numpy as np
-import pyaudio
-import wave
 import matplotlib.pyplot as plt
 from PIL import Image
 import sync
