@@ -33,6 +33,10 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 NOAA_LINE_LENGTH = 2080
+CHANNEL_A_START = 39+47-1
+CHANNEL_A_END = CHANNEL_A_START + 909
+CHANNEL_B_START = 1040 + 39 + 47 - 1
+CHANNEL_B_END =  CHANNEL_B_START + 909
 
 class Formatter(object):
     def __init__(self, im):
@@ -67,10 +71,11 @@ def plot_histogram(matrix,title="Histograma", save = False):
     plt.show(block=True)
     
 def get_frame(matrix, frame):
+    print(matrix.shape)
     if frame=="A":
-        matrix = matrix[:,39+47-1:1040-45-3]
+        matrix = matrix[:,CHANNEL_A_START:CHANNEL_A_END]
     if frame=="B":
-        matrix = matrix[:,1040+39+47-1:NOAA_LINE_LENGTH-45-3]
+        matrix = matrix[:,CHANNEL_B_START:CHANNEL_B_END]
     return matrix
 
 def flip(matrix):

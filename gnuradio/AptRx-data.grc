@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.9'?>
+<?grc format='1' created='3.7.13'?>
 <flow_graph>
   <timestamp>Fri May 20 11:24:25 2011</timestamp>
   <block>
@@ -73,12 +73,20 @@
       <value>True</value>
     </param>
     <param>
+      <key>sizing_mode</key>
+      <value>fixed</value>
+    </param>
+    <param>
       <key>thread_safe_setters</key>
       <value></value>
     </param>
     <param>
       <key>title</key>
       <value>Receptor APT NOAA</value>
+    </param>
+    <param>
+      <key>placement</key>
+      <value>(0,0)</value>
     </param>
   </block>
   <block>
@@ -231,7 +239,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>"/home/gonzalo/workspace/sdr-apt/wav/"</value>
+      <value>"/home/gonzalo/workspace/github/sdr-apt/wav/"</value>
     </param>
   </block>
   <block>
@@ -273,7 +281,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(376, 181)</value>
+      <value>(376, 252)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -286,6 +294,33 @@
     <param>
       <key>value</key>
       <value>prefix +"am_demod/"+ datetime.now().strftime("%Y.%m.%d.%H.%M.%S") + ".wav"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(376, 188)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>recfile3</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>prefix +"am_demod/"+ datetime.now().strftime("%Y.%m.%d.%H.%M.%S") + "_20800.wav"</value>
     </param>
   </block>
   <block>
@@ -382,7 +417,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -510,6 +545,10 @@
   <block>
     <key>blocks_file_source</key>
     <param>
+      <key>begin_tag</key>
+      <value>pmt.PMT_NIL</value>
+    </param>
+    <param>
       <key>alias</key>
       <value></value>
     </param>
@@ -527,7 +566,7 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/gonzalo/Escritorio/2019.01.05.16.36.27.dat</value>
+      <value>/home/gonzalo/workspace/sdr apt capturas/captura3/2019.01.05.16.36.27.dat</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -642,6 +681,10 @@
     <param>
       <key>id</key>
       <value>blocks_moving_average_xx_0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
     <param>
       <key>length</key>
@@ -920,6 +963,53 @@
     </param>
   </block>
   <block>
+    <key>blocks_wavfile_sink</key>
+    <param>
+      <key>bits_per_sample</key>
+      <value>8</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>recfile3</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(2584, 660)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_wavfile_sink_1_0</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>20800</value>
+    </param>
+  </block>
+  <block>
     <key>hilbert_fc</key>
     <param>
       <key>beta</key>
@@ -1085,6 +1175,10 @@
     <param>
       <key>average</key>
       <value>1.0</value>
+    </param>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
     </param>
     <param>
       <key>bw</key>
@@ -1355,12 +1449,20 @@
       <value>firdes.WIN_BLACKMAN_hARRIS</value>
     </param>
     <param>
+      <key>label</key>
+      <value>Relative Gain</value>
+    </param>
+    <param>
       <key>ymax</key>
       <value>10</value>
     </param>
     <param>
       <key>ymin</key>
       <value>-140</value>
+    </param>
+    <param>
+      <key>units</key>
+      <value>dB</value>
     </param>
   </block>
   <block>
@@ -1372,6 +1474,10 @@
     <param>
       <key>average</key>
       <value>1.0</value>
+    </param>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
     </param>
     <param>
       <key>bw</key>
@@ -1642,6 +1748,10 @@
       <value>firdes.WIN_BLACKMAN_hARRIS</value>
     </param>
     <param>
+      <key>label</key>
+      <value>Relative Gain</value>
+    </param>
+    <param>
       <key>ymax</key>
       <value>10</value>
     </param>
@@ -1649,12 +1759,20 @@
       <key>ymin</key>
       <value>-140</value>
     </param>
+    <param>
+      <key>units</key>
+      <value>dB</value>
+    </param>
   </block>
   <block>
     <key>qtgui_time_sink_x</key>
     <param>
       <key>autoscale</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
     </param>
     <param>
       <key>alias</key>
@@ -1961,6 +2079,10 @@
       <value>20800</value>
     </param>
     <param>
+      <key>stemplot</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>tr_chan</key>
       <value>0</value>
     </param>
@@ -2014,6 +2136,10 @@
     <param>
       <key>autoscale</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
     </param>
     <param>
       <key>alias</key>
@@ -2320,6 +2446,10 @@
       <value>20800</value>
     </param>
     <param>
+      <key>stemplot</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>tr_chan</key>
       <value>0</value>
     </param>
@@ -2373,6 +2503,10 @@
     <param>
       <key>autoscale</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
     </param>
     <param>
       <key>alias</key>
@@ -2679,6 +2813,10 @@
       <value>2080*2</value>
     </param>
     <param>
+      <key>stemplot</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>tr_chan</key>
       <value>0</value>
     </param>
@@ -2732,6 +2870,10 @@
     <param>
       <key>autoscale</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
     </param>
     <param>
       <key>alias</key>
@@ -3038,6 +3180,10 @@
       <value>96000</value>
     </param>
     <param>
+      <key>stemplot</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>tr_chan</key>
       <value>0</value>
     </param>
@@ -3088,6 +3234,10 @@
   </block>
   <block>
     <key>qtgui_waterfall_sink_x</key>
+    <param>
+      <key>axislabels</key>
+      <value>True</value>
+    </param>
     <param>
       <key>bw</key>
       <value>96000</value>
@@ -3494,6 +3644,12 @@
   <connection>
     <source_block_id>blocks_delay_0</source_block_id>
     <sink_block_id>blocks_keep_one_in_n_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_delay_0</source_block_id>
+    <sink_block_id>blocks_wavfile_sink_1_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

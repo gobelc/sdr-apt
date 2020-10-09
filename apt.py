@@ -21,8 +21,7 @@
 # Boston, MA 02110-1301, USA.
 
 
-# This file is partially based on "apt-decoder" by Zac Stewart and Martin Bernardi
-# <https://github.com/zacstewart/apt-decoder>
+
 
 import sys
 sys.path.insert(0, 'extras/')
@@ -31,18 +30,15 @@ sys.path.insert(0, 'temp/')
 import config
 import numpy as np
 import scipy.io.wavfile as wav
-
-
+import scipy.signal as sig
+import math
 
 def reshape(signal):
     '''
     Find sync frames and reshape the 1D signal into a 2D image.
 
-    Finds the sync A frame by looking at the maximum values of the cross
-    correlation between the signal and a hardcoded sync A frame.
-
-    The expected distance between sync A frames is 2080 samples, but with
-    small variations because of Doppler effect.
+    # This function is partially based on "apt-decoder" by Zac Stewart and Martin Bernardi
+    # <https://github.com/zacstewart/apt-decoder>
     '''
     # sync frame to find: seven impulses and some black pixels (some lines
     # have something like 8 black pixels and then white ones)
@@ -71,9 +67,61 @@ def reshape(signal):
             peaks[-1] = (i, corr)
 
     # create image matrix starting each line on the peaks found
+    matrix = np.zeros((len(peaks)-2,2080))
+    for i in range(len(peaks) - 2):
+        matrix[i,:]= signal[peaks[i][0] : peaks[i][0] + 2080]
+    return matrix
+
+def reshape_doppler(signal):
+    '''
+    Find sync frames and reshape the 1D signal into a 2D image, correcting Doppler Effect by resampling the signal
+    between peaks. 
+
+    Finds the sync A frame by looking at the maximum values of the cross
+    correlation between the signal and a hardcoded sync A frame.
+
+    The expected distance between sync A frames is 2080 samples, but with
+    small variations because of Doppler effect.
+    '''
+    # sync frame to find: seven impulses and some black pixels (some lines
+    # have something like 8 black pixels and then white ones)
+    pattern = 5*[0] + 5*[128] +5*[255] + 5*[128]
+
+    pattern = pattern.tolist()
+    #syncA =  pattern*7 + [0]*7*5
+    n_patterns = 7
+    syncA = 8*5*[0] + pattern + [0]*15
+    offset = (7-n_patterns)*10
+    # list of maximum correlations found: (index, value)
+    peaks = [(0, 0)]
+
+    # minimum distance between peaks
+    mindistance = 2000*5
     matrix = []
-    for i in range(len(peaks) - 1):
-        matrix.append(signal[peaks[i][0] : peaks[i][0] + 2080])
+    # need to shift the values down to get meaningful correlation values
+    signalshifted = [x-128 for x in signal]
+    #syncA = [x-128 for x in syncA]
+
+    print('Correcting Doppler Time Spread...')
+
+    i = 0
+    while i < (len(signal)-len(syncA)):
+        corr = np.dot(syncA, signalshifted[i : i+len(syncA)])
+        # if previous peak is too far, keep it and add this value to the
+        # list as a new peak
+        if i - peaks[-1][0] > mindistance:
+            # create image matrix starting each line on the peaks found
+            if len(peaks)>2:
+                matrix.append(sig.resample(signal[peaks[-1][0]-offset : i-offset],2080))
+            peaks.append((i, corr))
+            print('Peaks Found: '+ str(len(peaks)) +' of '+str(int(len(signal)/10400)))
+        # else if this value is bigger than the previous maximum, set this
+        # one
+        elif corr > peaks[-1][1]:
+            peaks[-1] = (i, corr)
+
+        i += 1
+
 
     return np.array(matrix)
 
@@ -96,13 +144,18 @@ def decode(FILENAME, cache = False):
     Decodes the signal and returns an APT matrix.
     '''
 
-
     if cache == False:
         rate, signal = wav.read(FILENAME)
-        truncate = rate * int(len(signal) // rate)
-        signal = signal[:truncate]
-        matrix = reshape(digitize(signal))
-        np.save('temp/matrix.npy', matrix)
+        if rate == 20800:
+            truncate = rate * int(len(signal) // rate)
+            signal = signal[:truncate]
+            matrix = reshape_doppler(digitize(signal))
+            np.save('temp/matrix.npy', matrix)
+        else:
+            truncate = rate * int(len(signal) // rate)
+            signal = signal[:truncate]
+            matrix = reshape(digitize(signal))
+            np.save('temp/matrix.npy', matrix)
     if cache == True:
         matrix = np.load('temp/matrix.npy')
 

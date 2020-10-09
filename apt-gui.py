@@ -21,9 +21,6 @@
 # Boston, MA 02110-1301, USA.
 
 
-# This file is partially based on "apt-decoder" by Zac Stewart and Martin Bernardi
-# <https://github.com/zacstewart/apt-decoder>
-
 import sys
 import os
 sys.path.insert(0, 'extras/')
