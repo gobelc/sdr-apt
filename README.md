@@ -26,6 +26,7 @@ Descargar sdr-apt, puede hacerlo desde terminal con el siguiente comando:
 ``git clone https://github.com/gobelc/sdr-apt.git``
 
 
+
 ## Demodulación
 
 La demodulación se realiza en GnuRadio mediante el flowgraph **AptRx.grc**, disponible en la carpeta gnuradio. La primera vez que se ejecute debe modificarse el campo "value" del bloque "Prefix" para incluir la ruta correcta.
@@ -35,5 +36,8 @@ El flowgraph **AptRx-data.grc** tiene como entrada una grabación de satélite r
 
 ## Interfaz gráfica
 Se puede correr en terminal con ``python apt-gui.py``
+
+(En ocasiones puede fallar el import de ImageTk, en Ubuntu se puede instalar con
+``sudo apt-get install -y python3-pil.imagetk``)
 
 ![](images/apt-gui.png)
